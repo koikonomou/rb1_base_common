@@ -1,6 +1,5 @@
 <?xml version="1.0"?>
-<robot name="rb1_base"
-	xmlns:xacro="http://www.ros.org/wiki/xacro">
+<robot name="rb1_base" xmlns:xacro="http://www.ros.org/wiki/xacro">
 
 
 	<!-- ***************** -->
@@ -114,11 +113,20 @@
 		<origin xyz="-0.1 0.0 0.1718" rpy="0.0 0.0 0.0"/>
 	</xacro:torso_ur3>
 
+	<xacro:arg name="transmission_hw_interface" default="hardware_interface/PositionJointInterface"/>
+
+	<xacro:ur3_robot prefix="$(arg prefix)right_arm_" joint_limited="false"
+    transmission_hw_interface="$(arg transmission_hw_interface)"/>
+
+	<xacro:ur3_robot prefix="$(arg prefix)left_arm_" joint_limited="false"
+    transmission_hw_interface="$(arg transmission_hw_interface)"/>
+
+<!-- 
 	<xacro:ur3_robot prefix="$(arg prefix)right_arm_" joint_limited="true"
 		shoulder_pan_lower_limit="${-pi}" shoulder_pan_upper_limit="${pi}"
 		wrist_3_lower_limit="${-pi}" wrist_3_upper_limit="${pi}"
 		kinematics_file="${load_yaml('$(find rb1_base_control)/config/ur3_calibration.yaml')}">
-	</xacro:ur3_robot>
+	</xacro:ur3_robot> -->
 
 	<joint name="$(arg prefix)right_arm_base_joint" type="fixed">
 		<origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0"/>
@@ -126,17 +134,18 @@
 		<child link="$(arg prefix)right_arm_base_link" />
 	</joint>
 
-	<xacro:ur3_robot prefix="$(arg prefix)left_arm_" joint_limited="true"
+<!-- 	<xacro:ur3_robot prefix="$(arg prefix)left_arm_" joint_limited="true"
 		shoulder_pan_lower_limit="${-pi}" shoulder_pan_upper_limit="${pi}"
 		wrist_3_lower_limit="${-pi}" wrist_3_upper_limit="${pi}"
 		kinematics_file="${load_yaml('$(find rb1_base_control)/config/ur3_calibration.yaml')}">
-	</xacro:ur3_robot>
+	</xacro:ur3_robot> -->
 
 	<joint name="$(arg prefix)left_arm_base_joint" type="fixed">
 		<origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0"/>
 		<parent link="$(arg prefix)torso_ur3_left_link" />
 		<child link="$(arg prefix)left_arm_base_link" />
 	</joint>
+
 
 	<!-- Gazebo ros control plugins -->
 	<xacro:ros_control/>
